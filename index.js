@@ -204,13 +204,12 @@ router.get('/products', (req, res)=> {
     // Query
     const strQry =
     `
-    SELECT *
+    SELECT product_id, title, product_description, img, price, quantity, created_by
     FROM products;
     `;
     db.query(strQry, (err, results)=> {
         if(err) throw err;
-        res.json({
-            status: 200,
+        res.status(200).json({
             results: results
         })
     })
