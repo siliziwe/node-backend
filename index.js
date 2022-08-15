@@ -200,20 +200,33 @@ router.post('/products', bodyParser.json(),
         })
 });
 // Get all products
-router.get('/products', (req, res)=> {
-    // Query
-    const strQry =
-    `
-    SELECT product_id, title, product_description, img, price, quantity, created_by
-    FROM products;
-    `;
-    db.query(strQry, [req.params.id], (err, results)=> {
-        if(err) throw err;
-        res.status(200).json({
-            results: results
-        })
-    })
-});
+// router.get('/products', (req, res)=> {
+//     // Query
+//     const strQry =
+//     `
+//     SELECT product_id, title, product_description, img, price, quantity, created_by
+//     FROM products;
+//     `;
+//     db.query(strQry, (err, results)=> {
+//         if(err) throw err;
+//         res.status(200).json({
+//             results: results
+//         })
+//     })
+// });
+
+
+
+router.get('/products', async (req, res) => {
+    try {
+     const product = await Product.getBySlug({ slug: req.params.slug, product_id: req.user && req.user.id });
+     res.json(product);
+    } catch (err) {
+     res.json({ error: err.message || err.toString() });
+    }
+   });
+
+
 
 // Get one product
 router.get('/products/:id', (req, res)=> {
