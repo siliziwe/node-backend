@@ -10,4 +10,4 @@ Content-Type: application/json
     "quantity": 2
 }
 ###
-GET https://camping-pos.herokuapp.com/products
+GET http://localhost:3000/products
