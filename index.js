@@ -17,16 +17,17 @@ const router = express.Router();
 const port = parseInt(process.env.PORT) || 3000;
 
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://127.0.0.1:8080']
+    origin: ['http://localhost:8080', 'http://127.0.0.1:8080'],
+    credentials: true
 }))
 // Set header
-app.use((req, res, next)=>{
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-    next();
-});
+// app.use((req, res, next)=>{
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+//     res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+//     next();
+// });
 app.use(router, cors(), express.json(),
     express.urlencoded({
     extended: true})
