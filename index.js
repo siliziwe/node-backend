@@ -188,12 +188,12 @@ router.post('/products', bodyParser.json(),
     // Query
     const strQry =
     `
-    INSERT INTO products(title, category, product_description, img, price, quantity, created_by)
-    VALUES(?, ?, ?, ?, ?, ?, ?);
+    INSERT INTO products(title, product_description, img, price, quantity, created_by)
+    VALUES(?, ?, ?, ?, ?, ?);
     `;
     //
     db.query(strQry,
-        [bd.title, bd.category, bd.product_description, bd.img, bd.price, bd.quantity, bd.created_by],
+        [bd.title, bd.product_description, bd.img, bd.price, bd.quantity, bd.created_by],
         (err, results)=> {
             if(err) throw err;
             res.send(`number of affected row/s: ${results.affectedRows}`);
@@ -204,7 +204,7 @@ router.get('/products', (req, res)=> {
     // Query
     const strQry =
     `
-    SELECT id, prodName,prodUrl, quantity, price, totalamount, dateCreated, userid
+    SELECT product_id, title, product_description, img, price, quantity, created_by
     FROM products;
     `;
     db.query(strQry, (err, results)=> {
@@ -221,7 +221,7 @@ router.get('/products/:id', (req, res)=> {
     // Query
     const strQry =
     `
-    SELECT id, prodName, prodUrl, quantity, price, totalamount, dateCreated, userid
+    SELECT product_id, title, product_description, img, price, quantity, created_by
     FROM products
     WHERE id = ?;
     `;
@@ -242,7 +242,7 @@ router.put('/products', (req, res)=> {
     SET ?
     WHERE id = ?`;
 
-    db.query(strQry,[bd.id], (err, data)=> {
+    db.query(strQry,[bd, bd.product_id], (err, data)=> {
         if(err) throw err;
         res.send(`number of affected record/s: ${data.affectedRows}`);
     })
