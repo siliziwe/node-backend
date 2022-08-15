@@ -207,7 +207,7 @@ router.get('/products', (req, res)=> {
     SELECT product_id, title, product_description, img, price, quantity, created_by
     FROM products;
     `;
-    db.query(strQry, (err, results)=> {
+    db.query(strQry, [req.params.id], (err, results)=> {
         if(err) throw err;
         res.status(200).json({
             results: results
@@ -232,6 +232,7 @@ router.get('/products/:id', (req, res)=> {
         })
     })
 });
+
 // Update product
 router.put('/products', (req, res)=> {
     const bd = req.body;
