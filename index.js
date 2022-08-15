@@ -16,6 +16,9 @@ const router = express.Router();
 // Configuration
 const port = parseInt(process.env.PORT) || 3000;
 
+app.use(cors({
+    origin: ['http://localhost:8080', 'http://127.0.0.1:8080']
+}))
 // Set header
 app.use((req, res, next)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -288,6 +291,11 @@ async (req, res) => {
 }
 
 
+
+
+
+
+// Cart
 
 
 
