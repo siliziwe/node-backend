@@ -204,7 +204,7 @@ router.get('/products', (req, res)=> {
     // Query
     const strQry =
     `
-    SELECT product_id, title, product_description, img, price, quantity, created_by
+    SELECT *
     FROM products;
     `;
     db.query(strQry, (err, results)=> {
