@@ -50,16 +50,16 @@ router.get('/users', (req, res)=> {
 
 });
 // User registration
-router.post('/register',bodyParser.json(), 
-     (req, res)=> {
+router.post('/register',bodyParser.json(),
+    (req, res)=> {
     // Retrieving data that was sent by the user
-    // id, firstname, lastname, email, userpassword, usertype 
+    // id, firstname, lastname, email, userpassword, usertype
     let {
         user_fullname, email, user_password, user_role
-    } = req.body; 
+    } = req.body;
     // If the userRole is null or empty, set it to "user".
     if(user_role.length === 0) {
-        if(( user_role.includes() !== 'user' || 
+        if(( user_role.includes() !== 'user' ||
             user_role.includes() !== 'admin'))
             user_role = "user";
     }
@@ -68,7 +68,7 @@ router.post('/register',bodyParser.json(),
     `SELECT email, user_password
     FROM users
     WHERE LOWER(email) = LOWER('${email}')`;
-    db.query(strQry, 
+    db.query(strQry,
         async (err, results)=> {
         if(err){
             throw err
@@ -77,22 +77,20 @@ router.post('/register',bodyParser.json(),
                 res.status(409).json({msg: 'User already exist'});
             }else {
                 // Encrypting a password
-                // Default value of salt is 10. 
+                // Default value of salt is 10.
                 user_password = await hash(user_password, 10);
                 // Query
-                strQry = 
+                strQry =
                 `
                 INSERT INTO users(user_fullname, email, user_password, user_role)
                 VALUES(?, ?, ?, ?);
                 `;
-                db.query(strQry, 
+                db.query(strQry,
                     [user_fullname, email, user_password, user_role],
                     (err, results)=> {
                         if(err)
-                           throw err;
-                        
+                        throw err;
                             res.status(201).json({msg: `number of affected row is: ${results.affectedRows}`});
-                    
                     })
             }
         }
@@ -104,10 +102,10 @@ router.post('/login', bodyParser.json(),
     // Get email and password
     const { email, user_password } = req.body;
     // console.log(userpassword);
-    const strQry = 
+    const strQry =
     `
     SELECT *
-    FROM users 
+    FROM users
     WHERE email = '${email}';
     `;
     db.query(strQry, async (err, results)=> {
@@ -115,12 +113,12 @@ router.post('/login', bodyParser.json(),
         if(err) throw err;
         // When user provide a wrong email
         if(!results.length) {
-            res.status(401).json( 
-                {msg: 'You provided the wrong email.'} 
+            res.status(401).json(
+                {msg: 'You provided the wrong email.'}
             );
         }
         // Authenticating a user
-        await compare(user_password, 
+        await compare(user_password,
             results[0].user_password,
             (cmpErr, cmpResults)=> {
             if(cmpErr) {
@@ -132,7 +130,7 @@ router.post('/login', bodyParser.json(),
             }
             // Apply a token and it will expire within 1 hr.
             if(cmpResults) {
-                const token = 
+                const token =
                 jwt.sign(
                     {
                         id: results[0].id,
@@ -260,3 +258,38 @@ router.delete('/products/:id', (req, res)=> {
     })
 });
 app.use(createError);
+
+
+
+
+
+
+//price calculation
+async (req, res) => {
+    let total = 0;
+    let size_price = 0;
+    let options_price = 0;
+
+    let {
+    items,
+    tip,
+    } = req.body;
+
+    let price = 0;
+    await Promise.all(items.map(async (el) => {
+        let menu_item = await req.models.menu_item.findOne({ _id: el.id });
+        price += parseInt(menu_item.price);
+        console.log(menu_item.price) // first 12 second 9
+        console.log(price) // first 12 second 21
+    })
+    );
+
+    console.log(price) // return 0
+}
+
+
+
+
+
+
+//form validation

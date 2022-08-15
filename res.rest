@@ -1,0 +1,11 @@
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+    "title": "bag ",
+    "category": "camp tools",
+    "product_description": "5 pocket bag",
+    "img": "https://i.postimg.cc/ncFvFLRy/bag4.jpg",
+    "price": 780,
+    "quantity": 2
+}
