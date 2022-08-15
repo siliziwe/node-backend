@@ -13,7 +13,7 @@ const createError = require('./middleware/errorHandling.js');
 const app = express();
 // Express router
 const router = express.Router();
-// Configuration 
+// Configuration
 const port = parseInt(process.env.PORT) || 3000;
 
 // Set header
@@ -24,16 +24,16 @@ app.use((req, res, next)=>{
     res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     next();
 });
-app.use(router, cors(), express.json(), 
+app.use(router, cors(), express.json(),
     express.urlencoded({
     extended: true})
 );
-// 
+//
 app.listen(port, ()=> {
     console.log(`Server is running on port ${port}`);
 });
 // home
-router.get('/', (req, res)=> { 
+router.get('/', (req, res)=> {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 // Get users
@@ -42,7 +42,7 @@ router.get('/users', (req, res)=> {
     `SELECT user_id, user_fullname, user_role, email, user_password
     FROM users`;
     db.query(strQry, (err, results)=> {
-        if(err) throw err; 
+        if(err) throw err;
         res.status(200).json({
             results: results
         })
@@ -139,7 +139,7 @@ router.post('/login', bodyParser.json(),
                         user_fullname: results[0].user_fullname,
                         email: results[0].email
                     },
-                    process.env.TOKEN_KEY, 
+                    process.env.TOKEN_KEY,
                     {
                         expiresIn: '1h'
                     }, (err, token) => {
@@ -149,8 +149,8 @@ router.post('/login', bodyParser.json(),
                             msg: 'Logged in',
                             token,
                             results: results[0]
-                        })                
-                    }  
+                        })
+                    }
                 );
             }
         });
@@ -161,37 +161,37 @@ router.post('/login', bodyParser.json(),
 //view profile
 router.get("/:username", function (req, res) {
     User.findOne({
-      username: req.params.username
+    username: req.params.username
     }, function (err, foundUser) {
-      if (err) {
+    if (err) {
         req.flash("error", "Something went wrong.");
         return res.redirect("/");
-      }
+    }
       if (foundUser.length == 0) //Means no data found
-      {
+    {
         //Write code for when no such user is there
-      }
-      res.render('profile', {
+    }
+    res.render('profile', {
         user: foundUser
-      });
+    });
     })
-  });
+});
 
 
 // Create new products
-router.post('/products', bodyParser.json(), 
+router.post('/products', bodyParser.json(),
     (req, res)=> {
-    const bd = req.body; 
+    const bd = req.body;
     bd.totalamount = bd.quantity * bd.price;
     // Query
-    const strQry = 
+    const strQry =
     `
-    INSERT INTO products(title, product_description, img, quantity, price, totalamount, dateCreated)
-    VALUES(?, ?, ?, ?, ?, ?);
+    INSERT INTO products(title, category, product_description, img, price, quantity, created_by)
+    VALUES(?, ?, ?, ?, ?, ?, ?);
     `;
     //
-    db.query(strQry, 
-        [bd.prodName, bd.prodUrl, bd.quantity, bd.price, bd.totalamount, bd.dateCreated],
+    db.query(strQry,
+        [bd.title, bd.category, bd.product_description, bd.img, bd.price, bd.quantity, bd.created_by],
         (err, results)=> {
             if(err) throw err;
             res.send(`number of affected row/s: ${results.affectedRows}`);
@@ -200,7 +200,7 @@ router.post('/products', bodyParser.json(),
 // Get all products
 router.get('/products', (req, res)=> {
     // Query
-    const strQry = 
+    const strQry =
     `
     SELECT id, prodName,prodUrl, quantity, price, totalamount, dateCreated, userid
     FROM products;
@@ -217,7 +217,7 @@ router.get('/products', (req, res)=> {
 // Get one product
 router.get('/products/:id', (req, res)=> {
     // Query
-    const strQry = 
+    const strQry =
     `
     SELECT id, prodName, prodUrl, quantity, price, totalamount, dateCreated, userid
     FROM products
@@ -235,10 +235,10 @@ router.get('/products/:id', (req, res)=> {
 router.put('/products', (req, res)=> {
     const bd = req.body;
     // Query
-    const strQry = 
+    const strQry =
     `UPDATE products
-     SET ?
-     WHERE id = ?`;
+    SET ?
+    WHERE id = ?`;
 
     db.query(strQry,[bd.id], (err, data)=> {
         if(err) throw err;
@@ -249,9 +249,9 @@ router.put('/products', (req, res)=> {
 // Delete product
 router.delete('/products/:id', (req, res)=> {
     // Query
-    const strQry = 
+    const strQry =
     `
-    DELETE FROM products 
+    DELETE FROM products
     WHERE id = ?;
     `;
     db.query(strQry,[req.params.id], (err, data, fields)=> {
