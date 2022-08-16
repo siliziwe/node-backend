@@ -2,10 +2,10 @@ POST http://localhost:3000/products
 Content-Type: application/json
 
 {
-    "title": "laptop 2",
+    "title": "tent 3",
     "category": "tools",
-    "product_description": "SSD 1TB",
-    "img": "https://i.postimg.cc/MZ3XqtgS/laptop2.jpg",
+    "product_description": "tent",
+    "img": "https://i.postimg.cc/QNvytvdS/teepee-tent-camping-equipment-shelter.jpg",
     "quantity": 1
 }
 ###
