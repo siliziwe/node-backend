@@ -264,7 +264,6 @@ async (req, res) => {
         console.log(price) // first 12 second 21
     })
     );
-
     console.log(price) // return 0
 }
 
@@ -274,7 +273,6 @@ async (req, res) => {
 
 
 // Cart
-
 app.get("/users/:id/cart", (req, res) => {
     let sql = `SELECT cart FROM users WHERE user_id =${req.params.id}`;
     db.query(sql, (err, results) => {
@@ -324,12 +322,15 @@ app.get("/users/:id/cart", (req, res) => {
   });
 
 
-  app.delete("users/:id/cart", bodyParser.json(), (req, res) => {
+app.delete("users/:id/cart", bodyParser.json(), (req, res) => {
     let bd = req.body;
     let sql = `UPDATE users SET cart = null WHERE user_id = ${req.params.id}`;
 
     db.query(sql, (err, results) => {
-      if (err) throw errres.send("Cart is empty");
+    if (err) throw errres.send("Cart is empty");
     });
-  });
+});
+
+
+
 //form validation
