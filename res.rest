@@ -2,11 +2,10 @@ POST http://localhost:3000/products
 Content-Type: application/json
 
 {
-    "title": "shovel",
+    "title": "tent 2",
     "category": "tools",
-    "product_description": "metal shovel",
-    "img": "https://i.postimg.cc/dQ6LsjTB/415029-1500.png",
-    "price": 800,
+    "product_description": "tent",
+    "img": "https://i.postimg.cc/5NTsJRHZ/1456740848613240.jpg",
     "quantity": 1
 }
 ###
