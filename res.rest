@@ -2,12 +2,12 @@ POST http://localhost:3000/products
 Content-Type: application/json
 
 {
-    "title": "Laptop",
-    "category": "Business",
-    "product_description": "SDD 500GB ",
-    "img": "https://i.postimg.cc/ncFvFLRy/bag4.jpg",
-    "price": 15000,
-    "quantity": 11
+    "title": "shovel",
+    "category": "tools",
+    "product_description": "metal shovel",
+    "img": "https://i.postimg.cc/dQ6LsjTB/415029-1500.png",
+    "price": 800,
+    "quantity": 1
 }
 ###
 GET http://localhost:3000/products
